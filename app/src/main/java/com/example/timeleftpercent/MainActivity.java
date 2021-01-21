@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void startService(View v){
+  /*  public void startService(View v){
         String input = editTextInput.getText().toString();
 
         Intent serviceIntent = new Intent(this, ExampleService.class);
@@ -37,5 +37,5 @@ public class MainActivity extends AppCompatActivity {
         Intent serviceIntent = new Intent(this, ExampleService.class);
 
         stopService(serviceIntent);
-    }
+    }*/
 }

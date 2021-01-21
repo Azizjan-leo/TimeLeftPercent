@@ -8,7 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.SystemClock;
 
-public class UpdatingWidget extends AppWidgetProvider {
+public class NewAppWidget extends AppWidgetProvider {
     private PendingIntent pendingIntent;
 
     @Override

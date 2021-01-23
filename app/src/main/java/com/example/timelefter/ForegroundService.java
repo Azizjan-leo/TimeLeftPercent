@@ -8,21 +8,21 @@ import android.os.IBinder;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 
-public class ExampleService extends Service {
+public class ForegroundService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
     }
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        String input = intent.getStringExtra("inputExtra");
+        String input = intent.getStringExtra(App.INPUT_STRING);
         Intent notificationIntent = new Intent(this, MainActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this,
                 0, notificationIntent, 0);
         Notification notification = new NotificationCompat.Builder(this, App.CHANNEL_ID)
-                .setContentTitle("Example Service")
+                .setContentTitle("Time Lefter")
                 .setContentText(input)
-                .setSmallIcon(R.drawable.ic_android_blackhead_12dp)
+                .setSmallIcon(R.drawable.ic_android_blackhead_24dp)
                 .setContentIntent(pendingIntent)
                 .build();
 
@@ -31,7 +31,7 @@ public class ExampleService extends Service {
 
         //do heavy work on a background thread
         //stopSelf();
-        return START_NOT_STICKY;
+        return START_REDELIVER_INTENT;
     }
     @Override
     public void onDestroy() {

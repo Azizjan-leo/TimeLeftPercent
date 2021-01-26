@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         editTextInput = findViewById(R.id.edit_text_input);
     }
-
+    
     public void startService(View v) {
         String input = editTextInput.getText().toString();
         Intent serviceIntent = new Intent(this, ForegroundService.class);

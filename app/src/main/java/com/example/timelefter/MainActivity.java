@@ -1,27 +1,97 @@
 package com.example.timelefter;
 
+import android.app.Notification;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
 
-public class MainActivity extends AppCompatActivity {
+import java.text.SimpleDateFormat;
+import java.time.LocalTime;
+import java.time.temporal.ChronoField;
+import java.util.Calendar;
+import java.util.Date;
 
-    private EditText editTextInput;
+public class MainActivity extends AppCompatActivity {
+    private static final long TIME_DELAYED = 500;
+
+    final Handler handler=new Handler();
+    TextView textView;
+    Boolean showNotification = true;
+    ProgressBar progressBar;
+    TextView remainTimeTv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        editTextInput = findViewById(R.id.edit_text_input);
+        remainTimeTv = findViewById(R.id.remainTimeTv);
+
+        textView = findViewById(R.id.TView);
+
+        textView.setTypeface(textView.getTypeface(), Typeface.BOLD);
+        progressBar = findViewById(R.id.progressBar);
+        progressBar.setMax(100);
+        progressBar.setRotation(-90);
+        progressBar.setRotationY(180);
+
+        handler.postDelayed(updateTask, TIME_DELAYED);
     }
 
+    final Runnable updateTask = new Runnable() {
+        @Override
+        public void run() {
+            if(showNotification)
+                updateCurrentTime();
+            handler.postDelayed(this,TIME_DELAYED);
+        }
+    };
+
+    public void updateCurrentTime(){
+
+        String result = "Done";
+        double currentSecondPercent = TimeService.getCurrentSecPercent();
+        long remainTimeSeconds = TimeService.getRemainSeconds();
+
+            if(currentSecondPercent > 0)
+            {
+                progressBar.setProgress((int)currentSecondPercent);
+                showNotification = true;
+
+                result = String.format("%.3f", currentSecondPercent) + "%";
+                int intPercent = (int)currentSecondPercent;
+                String shortText = "";
+                if(intPercent >= 100){
+                    shortText = String.valueOf(intPercent);
+                }
+                else if(intPercent < 100 && intPercent > 9){
+                    shortText = intPercent + "%";
+                }
+                else {
+                    shortText = String.format("%.1f", currentSecondPercent) + "%";
+                }
+
+                remainTimeTv.setText(String.valueOf(remainTimeSeconds/60));
+            }
+            else
+                showNotification = false;
+
+        textView.setText(result);
+    }
+
+    // old btns
     public void startService(View v) {
-        String input = editTextInput.getText().toString();
+//        String input = editTextInput.getText().toString();
         Intent serviceIntent = new Intent(this, ForegroundService.class);
-        serviceIntent.putExtra(App.INPUT_STRING, input);
+  //      serviceIntent.putExtra(App.INPUT_STRING, input);
         ContextCompat.startForegroundService(this, serviceIntent);
     }
 

@@ -22,7 +22,6 @@ import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
     private static final long TIME_DELAYED = 500;
-
     final Handler handler=new Handler();
     TextView textView;
     Boolean showNotification = true;
@@ -59,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
 
         String result = "Done";
         double currentSecondPercent = TimeService.getCurrentSecPercent();
-        long remainTimeSeconds = TimeService.getRemainSeconds();
+
 
             if(currentSecondPercent > 0)
             {
@@ -79,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
                     shortText = String.format("%.1f", currentSecondPercent) + "%";
                 }
 
-                remainTimeTv.setText(String.valueOf(remainTimeSeconds/60));
+                remainTimeTv.setText(TimeService.getRemainTime());
             }
             else
                 showNotification = false;

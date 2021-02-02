@@ -17,15 +17,24 @@ import java.util.Calendar;
 
 public class TimeService extends Service {
     public static final int START_HOUR = 4;
-    public static final int END_HOUR = 24;
+    public static final int END_HOUR = 9;
 
-    @Nullable
-    public static Long getRemainSeconds(){
+    public static String getRemainTime(){
+        String result = "00:00:00";
+
         long currentSecond =  LocalTime.now().get(ChronoField.SECOND_OF_DAY);
         long finalSecond = hourToSeconds(END_HOUR);
-        if(currentSecond < finalSecond)
-            return finalSecond - currentSecond;
-        return null;
+        long diff = finalSecond - currentSecond;
+
+        if((diff) > 0){
+            int hours = (int) diff / 3600;
+            int minutes = (int) (diff % 3600) / 60;
+            int seconds = (int) diff % 60;
+
+            result = String.format("%02d:%02d:%02d", hours, minutes, seconds);
+        }
+
+        return result;
     }
 
     @Nullable

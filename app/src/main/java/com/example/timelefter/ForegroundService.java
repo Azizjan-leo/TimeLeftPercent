@@ -34,7 +34,7 @@ public class ForegroundService extends Service {
 
         notificationManagerCompat = NotificationManagerCompat.from(this);
         updateCurrentTime();
-        startForeground(1, builder.build());
+        startForeground(App.NOTIFICATION_ID, builder.build());
 
         handler.postDelayed(updateTask, App.TIME_DELAYED);
 
@@ -43,9 +43,9 @@ public class ForegroundService extends Service {
     }
 
     public void updateCurrentTime(){
+        double currentSecondPercent = TimeService.getCurrentSecPercent();
 
-        if(TimeService.getCurrentSecPercent() != null) {
-            double currentSecondPercent = TimeService.getCurrentSecPercent();
+        if(currentSecondPercent > 0) {
             String result = String.format("%.3f", currentSecondPercent) + "%";
             int intPercent = (int) currentSecondPercent;
             String shortText;
@@ -70,7 +70,9 @@ public class ForegroundService extends Service {
 
             createNotificationChannel();
         }
-
+        else{
+            stopSelf();
+        }
     }
 
     private void createNotificationChannel() {

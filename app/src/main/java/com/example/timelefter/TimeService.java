@@ -38,13 +38,12 @@ public class TimeService extends Service {
 
 
 
-    @Nullable
     public static Double getCurrentSecPercent(){
         int startSecond = hourToSeconds(App.START_HOUR);
         int endSecond = hourToSeconds(App.END_HOUR);
         long currentSecond =  LocalTime.now().get(ChronoField.SECOND_OF_DAY);
 
-        if(currentSecond >= startSecond || currentSecond <= endSecond) {
+        if(currentSecond >= startSecond && currentSecond <= endSecond) {
 
             int secondDiff = startSecond - endSecond;
             double secondValue = (double) 100 / secondDiff;
@@ -52,7 +51,7 @@ public class TimeService extends Service {
             return 100 - (secondValue * (startSecond - currentSecond));
         }
 
-        return null;
+        return 0.0;
     }
 
     public static int hourToSeconds(int hour){

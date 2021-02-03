@@ -42,7 +42,8 @@ public class MainActivity extends AppCompatActivity {
         progressBar.setRotationY(180);
 
         Intent serviceIntent = new Intent(this, ForegroundService.class);
-        ContextCompat.startForegroundService(this, serviceIntent);
+        if(TimeService.getCurrentSecPercent() > 0)
+            ContextCompat.startForegroundService(this, serviceIntent);
 
         handler.postDelayed(updateTask, App.TIME_DELAYED);
     }

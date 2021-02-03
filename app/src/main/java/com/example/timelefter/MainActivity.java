@@ -21,7 +21,6 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
-    private static final long TIME_DELAYED = 500;
     final Handler handler=new Handler();
     TextView textView;
     Boolean showNotification = true;
@@ -42,7 +41,10 @@ public class MainActivity extends AppCompatActivity {
         progressBar.setRotation(-90);
         progressBar.setRotationY(180);
 
-        handler.postDelayed(updateTask, TIME_DELAYED);
+        Intent serviceIntent = new Intent(this, ForegroundService.class);
+        ContextCompat.startForegroundService(this, serviceIntent);
+
+        handler.postDelayed(updateTask, App.TIME_DELAYED);
     }
 
     final Runnable updateTask = new Runnable() {
@@ -50,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
         public void run() {
             if(showNotification)
                 updateCurrentTime();
-            handler.postDelayed(this,TIME_DELAYED);
+            handler.postDelayed(this, App.TIME_DELAYED);
         }
     };
 

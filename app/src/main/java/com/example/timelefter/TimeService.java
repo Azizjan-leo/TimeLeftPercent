@@ -1,8 +1,8 @@
 package com.example.timelefter;
 
-import android.app.Notification;
 import android.app.Service;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Handler;
 import android.os.IBinder;
 import android.widget.ProgressBar;
@@ -10,20 +10,19 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationManagerCompat;
+import androidx.core.os.ConfigurationCompat;
 
 import java.time.LocalTime;
 import java.time.temporal.ChronoField;
-import java.util.Calendar;
+
 
 public class TimeService extends Service {
-    public static final int START_HOUR = 4;
-    public static final int END_HOUR = 9;
 
     public static String getRemainTime(){
         String result = "00:00:00";
 
         long currentSecond =  LocalTime.now().get(ChronoField.SECOND_OF_DAY);
-        long finalSecond = hourToSeconds(END_HOUR);
+        long finalSecond = hourToSeconds(App.END_HOUR);
         long diff = finalSecond - currentSecond;
 
         if((diff) > 0){
@@ -37,10 +36,12 @@ public class TimeService extends Service {
         return result;
     }
 
+
+
     @Nullable
     public static Double getCurrentSecPercent(){
-        int startSecond = hourToSeconds(START_HOUR);
-        int endSecond = hourToSeconds(END_HOUR);
+        int startSecond = hourToSeconds(App.START_HOUR);
+        int endSecond = hourToSeconds(App.END_HOUR);
         long currentSecond =  LocalTime.now().get(ChronoField.SECOND_OF_DAY);
 
         if(currentSecond >= startSecond || currentSecond <= endSecond) {

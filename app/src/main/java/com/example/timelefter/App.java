@@ -14,7 +14,7 @@ public class App extends Application {
     public static final String CHANNEL_ID = "TLNotificationServiceChannel";
     public static final String INPUT_STRING = "InputString";
     public static final int START_HOUR = 4;
-    public static final int END_HOUR = 24;
+    public static final int END_HOUR = 20;
     public static final long TIME_DELAYED = 500;
 
     @Override
